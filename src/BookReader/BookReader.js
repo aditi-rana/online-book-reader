@@ -1,25 +1,11 @@
-// // BookReader.js
-// import React from 'react';
-
-// const BookReader = ({ book }) => {
-//   return (
-//     <div>
-//       <h2>{book.title}</h2>
-//       {/* Implement book reading interface here */}
-//     </div>
-//   );
-// };
-
-// export default BookReader;
-// BookReader.js
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { BOOK_CONTENT } from "../constants/book-content";
 
 const BookReader = ({ books }) => {
   const { id } = useParams();
 
-  const [bookContent, setBookContent] = useState('');
+  const [bookContent, setBookContent] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -33,17 +19,15 @@ const BookReader = ({ books }) => {
     try {
       const tmpbook = books.find((element) => element.cover_id == id);
 
-      const response = await axios.get(`https://openlibrary.org${tmpbook.key}.json`);
-      // const response = await axios.get(`https://openlibrary.org/api/books?jscmd=data&format=json&bibkeys=${tmpbook.key}`);
-      const book = response.data;
-console.log(book)
-      if(response) {
-        setBookContent(book.content);
-        setTotalPages(Math.ceil(book.content.length / 500)); // Calculate total pages
+      const bookContent = BOOK_CONTENT;
+
+      if (bookContent) {
+        setBookContent(bookContent);
+        setTotalPages(Math.ceil(bookContent.length / 1000)); // Calculate total pages
         setSelectedBook(tmpbook);
       }
     } catch (error) {
-      console.error('Error fetching book content:', error);
+      console.error("Error fetching book content:", error);
     }
   };
 
@@ -62,16 +46,34 @@ console.log(book)
   };
 
   return (
-    <div>
-      <h2>Book Reader</h2>
-      <p>Page {currentPage} of {totalPages}</p>
-      <div>{getCurrentPageContent()}</div>
-      <div>
-        <button onClick={goToPreviousPage} disabled={currentPage === 1}>Previous</button>
-        <button onClick={goToNextPage} disabled={currentPage === totalPages}>Next</button>
+    <div className="container">
+      <h2 className="mt-5">Book Reader</h2>
+      <p>
+        Page {currentPage} of {totalPages}
+      </p>
+      <div className="card">
+        <div className="card-body">
+          <div>{getCurrentPageContent()}</div>
+        </div>
       </div>
-      <Link to={`/book/${id}`}>
-        <button>Back to Book Detail</button>
+      <div className="mt-3">
+        <button
+          className="btn btn-primary mr-2"
+          onClick={goToPreviousPage}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={goToNextPage}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
+      <Link to={`/book/${id}`} className="btn btn-secondary mt-3">
+        Back to Book Detail
       </Link>
     </div>
   );
