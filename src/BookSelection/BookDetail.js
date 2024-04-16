@@ -34,15 +34,17 @@ const BookDetail = ({ books }) => {
       <h2 className="mt-5">{book.title}</h2>
       <div className="card mb-3">
         <div className="row no-gutters">
-          <div className="col-md">
+          <div className="col-md-4 p-2">
+            <img
+              src={"/assets/Harry.jpeg"}
+              className="card-img"
+              alt={book.title}
+            />
+          </div>
+          <div className="col-md-8">
             <div className="card-body">
               <h5 className="card-title">
-                Author:{" "}
-                {selectedBook.authors
-                  ? selectedBook.authors.length > 1
-                    ? selectedBook.authors.map((author) => author.name + ", ")
-                    : selectedBook.authors[0].name
-                  : "-"}
+                Author: {book?.authors?.map((author) => author.name).join(", ")}
               </h5>
               <p className="card-text">Description: {book.description}</p>
               <Link
