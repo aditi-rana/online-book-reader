@@ -23,7 +23,7 @@ const BookReader = ({ books }) => {
 
       if (bookContent) {
         setBookContent(bookContent);
-        setTotalPages(Math.ceil(bookContent.length / 1000)); // Calculate total pages
+        setTotalPages(Math.ceil(bookContent.length / 2500)); // Calculate total pages
         setSelectedBook(tmpbook);
       }
     } catch (error) {
@@ -40,8 +40,8 @@ const BookReader = ({ books }) => {
   };
 
   const getCurrentPageContent = () => {
-    const startIndex = (currentPage - 1) * 500;
-    const endIndex = startIndex + 500;
+    const startIndex = (currentPage - 1) * 2500;
+    const endIndex = startIndex + 2500;
     return bookContent.substring(startIndex, endIndex);
   };
 
